@@ -1,6 +1,21 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using AuthService.Repository;
+using AuthService.Repository.Interface;
+using AuthService.Service;
+using AuthService.Service.Interface;
+using Microsoft.EntityFrameworkCore;
+
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DislinktDbConnection")));
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
+//repositories
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+//services
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

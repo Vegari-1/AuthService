@@ -5,7 +5,7 @@ namespace AuthService
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
-
+        
     }
 }
 
