@@ -1,0 +1,32 @@
+name: ASP.NET-CI
+
+on:
+  pull_request:
+    branches: [develop]
+
+jobs:
+  ci-pipe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'
+      - name: Cache Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages # lokacija kesa za nuget u okviru linux masine (dokumentaciji actions/cache@v3)
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/package-lock.json')}} # kljuc pod kojim je kes sacuvan (kreira se novi za svaku promenu dependensija)
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+      - name: Install Dependencies
+        #working-directory: ./AuthService
+        run: dotnet restore
+      - name: Build App
+        #working-directory: ./AuthService
+        run: dotnet build --configuration Release --no-restore # bilduje aplikaciju za po Release konfiguraciji i bez pozivanja dotnet restore pre bilda
+      - name: Run Tests
+        #working-directory: ./AuthService
+        run: dotnet test --no-restore --verbosity normal
