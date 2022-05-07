@@ -22,11 +22,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
       - name: Install Dependencies
-        #working-directory: ./AuthService
+        working-directory: ./AuthService
         run: dotnet restore
       - name: Build App
-        #working-directory: ./AuthService
+        working-directory: ./AuthService
         run: dotnet build --configuration Release --no-restore # bilduje aplikaciju za po Release konfiguraciji i bez pozivanja dotnet restore pre bilda
       - name: Run Tests
-        #working-directory: ./AuthService
+        working-directory: ./AuthService
         run: dotnet test --no-restore --verbosity normal
