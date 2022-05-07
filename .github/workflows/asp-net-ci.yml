@@ -22,7 +22,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
       - name: Install Dependencies
-        working-directory: ./AuthService
+        #working-directory: ./AuthService
         run: dotnet restore
       - name: Build App
         working-directory: ./AuthService
