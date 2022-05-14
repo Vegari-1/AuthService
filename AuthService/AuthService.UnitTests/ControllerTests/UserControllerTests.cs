@@ -5,6 +5,7 @@ using AuthService.Service.Interface.Exceptions;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System;
 using Xunit;
 
 namespace AuthService.UnitTests;
