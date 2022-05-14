@@ -1,7 +1,9 @@
-﻿namespace AuthService.Service.Interface;
+﻿using AuthService.Model;
 
-public class IUserService
+namespace AuthService.Service.Interface;
+
+public interface IUserService
 {
-
+    Task<User> Register(User user);
 }
 

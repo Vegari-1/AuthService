@@ -1,11 +1,32 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AuthService.Dto;
+using AuthService.Model;
+using AuthService.Service.Interface;
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AuthService
 {
     [Route("api/[controller]")]
-    public class AuthController : Controller
+    [ApiController]
+    public class UserController : ControllerBase
     {
-        
+
+        private readonly IUserService _userService;
+        private readonly IMapper _mapper;
+
+        public UserController(IUserService userService, IMapper mapper)
+        {
+            _userService = userService;
+            _mapper = mapper;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
+        {
+            User user = await _userService.Register(_mapper.Map<User>(registerRequest));
+
+            return StatusCode(StatusCodes.Status201Created, _mapper.Map<RegisterResponse>(user));
+        }
     }
 }
 
