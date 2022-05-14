@@ -9,4 +9,10 @@
   <ItemGroup>
     <ProjectReference Include="..\AuthService.Repository.Interface\AuthService.Repository.Interface.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Exceptions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+  </ItemGroup>
 </Project>
