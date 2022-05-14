@@ -16,6 +16,7 @@ public class UserControllerTests
     private static readonly string username = "username";
     private static readonly string email = "email@example.com";
     private static readonly string password = "password";
+    private static readonly string hashPassword = "$2a$12$vp4wrXirrV1vvY34f2QFleupB9NEFpXrrGTeIN6PiATfmMqh6uGTy";
     private static readonly string name = "John";
     private static readonly string surname = "Smith";
 
@@ -45,7 +46,7 @@ public class UserControllerTests
             Id = id,
             Username = username,
             Email = email,
-            Password = password,
+            Password = hashPassword,
             Name = name,
             Surname = surname
         };
