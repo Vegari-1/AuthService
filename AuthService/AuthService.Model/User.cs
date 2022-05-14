@@ -14,14 +14,6 @@
 
         public string Surname { get; set; }
 
-        public User(string username, string email, string password, string name, string surname)
-        {
-            Username = username;
-            Email = email;
-            Password = password;
-            Name = name;
-            Surname = surname;
-        }
 	}
 }
 
