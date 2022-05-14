@@ -24,9 +24,11 @@
   <ItemGroup>
     <None Remove="Controller\" />
     <None Remove="Moq" />
+    <None Remove="ServiceTests\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ControllerTests\" />
+    <Folder Include="ServiceTests\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AuthService\AuthService.csproj" />
