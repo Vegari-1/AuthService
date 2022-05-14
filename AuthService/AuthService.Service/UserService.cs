@@ -24,6 +24,8 @@ public class UserService : IUserService
             throw new EntityExistsException(typeof(User), "email or username");
         }
 
+        user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+
         return await _userRepository.Save(user);
     }
 }
