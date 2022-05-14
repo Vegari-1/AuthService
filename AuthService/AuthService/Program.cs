@@ -1,4 +1,5 @@
-﻿using AuthService.Repository;
+﻿using AuthService.Middlewares;
+using AuthService.Repository;
 using AuthService.Repository.Interface;
 using AuthService.Service;
 using AuthService.Service.Interface;
@@ -38,6 +39,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.Run();
 
