@@ -2,7 +2,15 @@ name: ASP.NET-CI
 
 on:
   pull_request:
-    branches: [develop]
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+
+env:
+  PROJ_DIR: ./AuthService
+  PACKAGE_DIR: ${{ format('{0}/{0}', 'AuthService') }}
+  PACKAGE_PATH: ${{ format('{0}/{0}/bin/Release/*.nupkg', 'AuthService') }}
+
 
 jobs:
   ci-pipe:
@@ -14,6 +22,7 @@ jobs:
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: '6.0.x'
+
       - name: Cache Dependencies
         uses: actions/cache@v3
         with:
@@ -22,11 +31,34 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
       - name: Install Dependencies
-        working-directory: ./AuthService
+        working-directory: ${{ env.PROJ_DIR }}
         run: dotnet restore
       - name: Build App
-        working-directory: ./AuthService
+        working-directory: ${{ env.PROJ_DIR }}
         run: dotnet build --configuration Release --no-restore # bilduje aplikaciju za po Release konfiguraciji i bez pozivanja dotnet restore pre bilda
       - name: Run Tests
-        working-directory: ./AuthService
+        working-directory: ${{ env.PROJ_DIR }}
         run: dotnet test --no-restore --verbosity normal
+      
+      - name: Determine next version
+        id: version
+        if: github.event_name == 'push'
+        run: |
+          echo "::set-output name=VERSION::$(npx semantic-release --dry-run | grep -oP 'Published release \K.*? ')"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create a Release
+        if: github.event_name == 'push'
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Package
+        if: github.event_name == 'push'
+        working-directory: ${{ env.PACKAGE_DIR }}
+        run: dotnet pack --configuration Release --no-build /p:Version=${{ steps.version.outputs.VERSION }}
+      - name: Publish the package to GPR
+        if: github.event_name == 'push'
+        run: |
+          dotnet nuget add source --username ekipa --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Vegari-1/index.json"
+          dotnet nuget push ${{ env.PACKAGE_PATH }} --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
+    
