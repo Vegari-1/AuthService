@@ -20,7 +20,15 @@ namespace AuthService
             _mapper = mapper;
         }
 
-        [HttpPost]
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
+        {
+            string accessToken = await _userService.Login(_mapper.Map<User>(loginRequest));
+
+            return Ok(accessToken);
+        }
+
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
         {
             User user = await _userService.Register(_mapper.Map<User>(registerRequest));
