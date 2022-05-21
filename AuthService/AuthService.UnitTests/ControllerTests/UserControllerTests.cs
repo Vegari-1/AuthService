@@ -1,4 +1,5 @@
-﻿using AuthService.Dto;
+﻿using System;
+using AuthService.Dto;
 using AuthService.Model;
 using AuthService.Service.Interface;
 using AuthService.Service.Interface.Exceptions;
