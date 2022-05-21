@@ -2,6 +2,7 @@
 using AuthService.Model;
 using AuthService.Repository.Interface;
 using AuthService.Service;
+using AuthService.Service.Interface;
 using AuthService.Service.Interface.Exceptions;
 using Moq;
 using Xunit;
@@ -22,8 +23,9 @@ namespace AuthService.UnitTests.ServiceTests
         private static User savedUser;
 
         private static Mock<IUserRepository> mockRepository = new Mock<IUserRepository>();
-
-        UserService userService = new UserService(mockRepository.Object);
+        private static Mock<ITokenService> mockToken = new Mock<ITokenService>();
+ 
+        UserService userService = new UserService(mockRepository.Object, mockToken.Object);
 
         private static void SetUp()
         {
