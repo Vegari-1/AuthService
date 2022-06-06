@@ -4,6 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	<IsPackable>true</IsPackable>
+	<RepositoryUrl>https://github.com/Vegari-1/AuthService</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
