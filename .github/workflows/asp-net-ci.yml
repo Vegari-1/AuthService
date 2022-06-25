@@ -10,6 +10,7 @@ env:
   PROJ_DIR: ./AuthService
   PACKAGE_DIR: ${{ format('{0}/{0}', 'AuthService') }}
   PACKAGE_PATH: ${{ format('{0}/{0}/bin/Release/*.nupkg', 'AuthService') }}
+  DOCKERHUB_REPO: evaj/auth-service
 
 
 jobs:
@@ -74,6 +75,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ${{ env.PROJ_DIR }}
-          tags: |
-            evaj/auth-service:${{ steps.version.outputs.VERSION }}
+          tags: ${{ format('{0}:{1}', env.DOCKERHUB_REPO, steps.version.outputs.VERSION) }}
           push: true
