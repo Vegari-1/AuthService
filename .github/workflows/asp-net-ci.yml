@@ -10,7 +10,7 @@ env:
   PROJ_DIR: ./AuthService
   PACKAGE_DIR: ${{ format('{0}/{0}', 'AuthService') }}
   PACKAGE_PATH: ${{ format('{0}/{0}/bin/Release/*.nupkg', 'AuthService') }}
-  DOCKERHUB_REPO: evaj/auth-service
+  DOCKERHUB_REPO: evaj10/auth-service
 
 
 jobs:
