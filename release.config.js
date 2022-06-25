@@ -4,6 +4,7 @@ module.exports = {
 	plugins: [
 		"@semantic-release/commit-analyzer", // analizira komit poruke i odredjuje narednu verziju
 		"@semantic-release/release-notes-generator", // generise release notes na osnovu komita
-		"@semantic-release/github" // kreira github release
+		"@semantic-release/github", // kreira github release
+		"semantic-release-export-data" // pristup verziji
 	]
 }
