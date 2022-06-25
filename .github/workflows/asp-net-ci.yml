@@ -41,6 +41,10 @@ jobs:
         working-directory: ${{ env.PROJ_DIR }}
         run: dotnet test --no-restore --verbosity normal
       
+      - name: NPM install packages
+        run: |
+          npm install semantic-release
+          npm install semantic-release-export-data
       
       - name: Determine next version
         id: version
