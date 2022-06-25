@@ -41,11 +41,14 @@ jobs:
         working-directory: ${{ env.PROJ_DIR }}
         run: dotnet test --no-restore --verbosity normal
       
+      #echo "action_state=yellow" >> $GITHUB_ENV
+      
       - name: Determine next version
         id: version
         #if: github.event_name == 'push'
+        #echo "::set-output name=VERSION::$(npx semantic-release --dry-run | grep -oP 'Published release \K.*? ')"
         run: |
-          echo "::set-output name=VERSION::$(npx semantic-release --dry-run | grep -oP 'Published release \K.*? ')"
+          echo "VERSION_NUM=$(npx semantic-release --dry-run | grep -oP 'Published release \K.*? ')" >> $GITHUB_ENV
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create a Release
@@ -64,7 +67,8 @@ jobs:
           dotnet nuget push ${{ env.PACKAGE_PATH }} --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
 
       - name: proba
-        run: echo ${{steps.version.outputs.VERSION}}
+        run: |
+          echo "${{ env.VERSION_NUM }}"
 
 
       - name: Set up Docker Buildx
