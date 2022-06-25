@@ -42,7 +42,7 @@ jobs:
       
       - name: Determine next version
         id: version
-        if: github.event_name == 'push'
+        #if: github.event_name == 'push'
         run: |
           echo "::set-output name=VERSION::$(npx semantic-release --dry-run | grep -oP 'Published release \K.*? ')"
         env:
@@ -61,4 +61,19 @@ jobs:
         run: |
           dotnet nuget add source --username ekipa --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Vegari-1/index.json"
           dotnet nuget push ${{ env.PACKAGE_PATH }} --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
-    
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build image and push to Docker Hub
+        uses: docker/build-push-action@v2
+        with:
+          context: ${{ env.PROJ_DIR }}
+          tags: |
+            evaj/auth-service:${{ steps.version.outputs.VERSION }}
+          push: true
