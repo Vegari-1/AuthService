@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace AuthService.IntegrationTests
 {
-    public static class ServiceCollectionExtensions
+    public static class ServiceConfigExtensions
     {
         public static void RemoveDbContext<T>(this IServiceCollection services) where T : DbContext
         {
@@ -21,5 +21,6 @@ namespace AuthService.IntegrationTests
             var context = scopedServices.GetRequiredService<T>();
             context.Database.EnsureCreated();
         }
+
     }
 }
