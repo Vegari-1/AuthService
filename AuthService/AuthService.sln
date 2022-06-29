@@ -1,26 +1,28 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 25.0.1700.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService", "AuthService\AuthService.csproj", "{B3A4A7F9-187B-4A8B-ABEF-39BFB9271113}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService", "AuthService\AuthService.csproj", "{B3A4A7F9-187B-4A8B-ABEF-39BFB9271113}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.Model", "AuthService.Model\AuthService.Model.csproj", "{F4CBC983-4929-4BF9-B98A-CF39801FA970}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Model", "AuthService.Model\AuthService.Model.csproj", "{F4CBC983-4929-4BF9-B98A-CF39801FA970}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{06B0C617-853B-4076-9F26-42ED4FEF77B0}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.Repository.Interface", "AuthService.Repository.Interface\AuthService.Repository.Interface.csproj", "{A51A406E-6362-429B-BBCD-8ADE63DDD798}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Repository.Interface", "AuthService.Repository.Interface\AuthService.Repository.Interface.csproj", "{A51A406E-6362-429B-BBCD-8ADE63DDD798}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.Repository", "AuthService.Repository\AuthService.Repository.csproj", "{DE119705-0BC8-4F37-BB62-A4B79A26E049}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Repository", "AuthService.Repository\AuthService.Repository.csproj", "{DE119705-0BC8-4F37-BB62-A4B79A26E049}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.Service.Interface", "AuthService.Service.Interface\AuthService.Service.Interface.csproj", "{01636EE3-30FE-4462-AC9A-781F87740372}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Service.Interface", "AuthService.Service.Interface\AuthService.Service.Interface.csproj", "{01636EE3-30FE-4462-AC9A-781F87740372}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.Service", "AuthService.Service\AuthService.Service.csproj", "{23205EAC-AD99-498C-9C06-67CE716DB0F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Service", "AuthService.Service\AuthService.Service.csproj", "{23205EAC-AD99-498C-9C06-67CE716DB0F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.UnitTests", "AuthService.UnitTests\AuthService.UnitTests.csproj", "{2FAD97D0-36B3-40B5-A422-F369975A9F66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.UnitTests", "AuthService.UnitTests\AuthService.UnitTests.csproj", "{2FAD97D0-36B3-40B5-A422-F369975A9F66}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.IntegrationTests", "AuthService.IntegrationTests\AuthService.IntegrationTests.csproj", "{42504CE8-6D19-45E6-9263-A37E63943CA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{2FAD97D0-36B3-40B5-A422-F369975A9F66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FAD97D0-36B3-40B5-A422-F369975A9F66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FAD97D0-36B3-40B5-A422-F369975A9F66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42504CE8-6D19-45E6-9263-A37E63943CA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42504CE8-6D19-45E6-9263-A37E63943CA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42504CE8-6D19-45E6-9263-A37E63943CA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42504CE8-6D19-45E6-9263-A37E63943CA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

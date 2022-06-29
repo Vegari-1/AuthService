@@ -9,11 +9,16 @@ using Xunit;
 
 namespace AuthService.IntegrationTests
 {
-    public class userControllerTests : IClassFixture<IntegrationTestFactory<Program, AppDbContext>>
+    public class UserControllerTests : IClassFixture<IntegrationWebApplicationFactory<Program, AppDbContext>>
     {
-        private readonly IntegrationTestFactory<Program, AppDbContext> _factory;
+        private readonly IntegrationWebApplicationFactory<Program, AppDbContext> _factory;
+        private readonly HttpClient _client;
 
-        public userControllerTests(IntegrationTestFactory<Program, AppDbContext> factory) => _factory = factory;
+        public UserControllerTests(IntegrationWebApplicationFactory<Program, AppDbContext> factory)
+        {
+            _factory = factory;
+            _client = _factory.CreateClient();
+        }
 
         private static readonly string tableName = "Users";
         private static readonly string username = "username";
@@ -25,9 +30,7 @@ namespace AuthService.IntegrationTests
         [Fact]
         public async Task Register_CorrectData_RegistrationResponse()
         {
-            // Arrange
-            var client = _factory.CreateClient();
-
+            // Given
             RegisterRequest registerRequest = new RegisterRequest()
             {
                 Username = username,
@@ -36,13 +39,12 @@ namespace AuthService.IntegrationTests
                 Name = name,
                 Surname = surname
             };
-
             var requestContent = new StringContent(JsonConvert.SerializeObject(registerRequest), Encoding.UTF8, "application/json");
 
-            // Act
-            var response = await client.PostAsync("/api/user/register", requestContent);
+            // When
+            var response = await _client.PostAsync("/api/user/register", requestContent);
 
-            // Assert
+            // Then
             response.EnsureSuccessStatusCode();
             var responseContentString = await response.Content.ReadAsStringAsync();
             var responseContentObject = JsonConvert.DeserializeObject<RegisterResponse>(responseContentString);
@@ -63,21 +65,18 @@ namespace AuthService.IntegrationTests
         //[Fact]
         public async void Login_CorrectData_AccessToken()
         {
-            // Arrange
-            var client = _factory.CreateClient();
-
+            // Given
             LoginRequest loginRequest = new LoginRequest()
             {
                 Username = username,
                 Password = password
             };
-
             var requestContent = new StringContent(JsonConvert.SerializeObject(loginRequest), Encoding.UTF8, "application/json");
 
-            // Act
-            var response = await client.PostAsync("/api/user/login", requestContent);
+            // When
+            var response = await _client.PostAsync("/api/user/login", requestContent);
 
-            // Assert
+            // Then
             response.EnsureSuccessStatusCode();
             var responseContentString = await response.Content.ReadAsStringAsync();
             var responseContentObject = JsonConvert.DeserializeObject<string>(responseContentString);
@@ -87,21 +86,18 @@ namespace AuthService.IntegrationTests
         [Fact]
         public async void Login_NonExistingUsername_BadCredentialsException()
         {
-            // Arrange
-            var client = _factory.CreateClient();
-
+            // Given
             LoginRequest loginRequest = new LoginRequest()
             {
                 Username = username,
                 Password = password
             };
-
             var requestContent = new StringContent(JsonConvert.SerializeObject(loginRequest), Encoding.UTF8, "application/json");
 
-            // Act
-            var response = await client.PostAsync("/api/user/login", requestContent);
+            // When
+            var response = await _client.PostAsync("/api/user/login", requestContent);
 
-            // Assert
+            // Then
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
     }
