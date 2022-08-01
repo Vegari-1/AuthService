@@ -18,8 +18,6 @@ public class UserControllerTests
     private static readonly string email = "email@example.com";
     private static readonly string password = "password";
     private static readonly string hashPassword = "$2a$12$vp4wrXirrV1vvY34f2QFleupB9NEFpXrrGTeIN6PiATfmMqh6uGTy";
-    private static readonly string name = "John";
-    private static readonly string surname = "Smith";
     private static readonly string accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtzZW5rbyIsImV4cCI6MTY1MzEyOTQ1MiwiaXNzIjoidmVnYXJpLTEiLCJhdWQiOiJ2ZWdhcmktMSJ9.CA6pGWnJjopO53m049x1fg5amU0eqHIhDkwDFwVGguc";
 
     private static User userFromRegisterRequest;
@@ -40,9 +38,7 @@ public class UserControllerTests
         {
             Username = username,
             Email = email,
-            Password = password,
-            Name = name,
-            Surname = surname
+            Password = password
         };
 
         userFromLoginRequest = new User()
@@ -56,18 +52,14 @@ public class UserControllerTests
             Id = id,
             Username = username,
             Email = email,
-            Password = hashPassword,
-            Name = name,
-            Surname = surname
+            Password = hashPassword
         };
 
         registerRequest = new RegisterRequest()
         {
             Username = username,
             Email = email,
-            Password = password,
-            Name = name,
-            Surname = surname
+            Password = password
         };
 
         registerResponse = new RegisterResponse()
@@ -75,8 +67,6 @@ public class UserControllerTests
             Id = id,
             Username = username,
             Email = email,
-            Name = name,
-            Surname = surname
         };
 
         loginRequest = new LoginRequest()
@@ -117,8 +107,6 @@ public class UserControllerTests
         Assert.Equal(registerResponse.Id, actionValue.Id);
         Assert.Equal(registerResponse.Username, actionValue.Username);
         Assert.Equal(registerResponse.Email, actionValue.Email);
-        Assert.Equal(registerResponse.Name, actionValue.Name);
-        Assert.Equal(registerResponse.Surname, actionValue.Surname);
     }
 
     [Fact]
