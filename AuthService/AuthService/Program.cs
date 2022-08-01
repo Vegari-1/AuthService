@@ -84,4 +84,7 @@ app.UseMetricServer();
 
 app.Run();
 
-public partial class Program { }
+namespace AuthService
+{
+    public partial class Program { }
+}
