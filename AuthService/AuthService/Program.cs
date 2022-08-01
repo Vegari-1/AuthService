@@ -5,7 +5,20 @@ using AuthService.Service;
 using AuthService.Service.Interface;
 using Microsoft.EntityFrameworkCore;
 
+var allowSpecificOrigins = "_allowSpecificOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(allowSpecificOrigins,
+                          policy =>
+                          {
+                              policy.WithOrigins("http://localhost:3000")
+                                    .AllowAnyHeader()
+                                    .AllowAnyMethod();
+                          });
+});
 
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -36,6 +49,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(allowSpecificOrigins);
 
 app.UseAuthorization();
 
