@@ -3,6 +3,8 @@ using AuthService.Model;
 using AuthService.Service.Interface;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using OpenTracing;
+using Prometheus;
 
 namespace AuthService
 {
@@ -13,11 +15,15 @@ namespace AuthService
 
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
+        private readonly ITracer _tracer;
 
-        public UserController(IUserService userService, IMapper mapper)
+        Counter counter = Metrics.CreateCounter("auth_service_counter", "auth counter");
+
+        public UserController(IUserService userService, IMapper mapper, ITracer tracer)
         {
             _userService = userService;
             _mapper = mapper;
+            _tracer = tracer;
         }
 
         [HttpPost("login")]

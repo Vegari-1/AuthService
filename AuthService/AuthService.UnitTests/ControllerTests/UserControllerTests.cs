@@ -6,6 +6,7 @@ using AuthService.Service.Interface.Exceptions;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using OpenTracing;
 using Xunit;
 
 namespace AuthService.UnitTests;
@@ -31,8 +32,9 @@ public class UserControllerTests
 
     private static Mock<IUserService> mockService = new Mock<IUserService>();
     private static Mock<IMapper> mockMapper = new Mock<IMapper>();
+    private static Mock<ITracer> mockTracer = new Mock<ITracer>();
 
-    UserController userController = new UserController(mockService.Object, mockMapper.Object);
+    UserController userController = new UserController(mockService.Object, mockMapper.Object, mockTracer.Object);
 
     private static void SetUp()
     {
