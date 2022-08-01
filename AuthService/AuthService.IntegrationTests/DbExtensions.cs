@@ -35,7 +35,7 @@ namespace AuthService.IntegrationTests
             string tableName, User user)
         {
             string insertQuery = "INSERT INTO \"" + tableName + "\" (\"Id\", \"Username\", \"Email\", \"Password\", \"Name\", \"Surname\") " +
-                                 "VALUES (@Id, @Username, @Email, @Password, @Name, @Surname)";
+                                 "VALUES (@Id, @Username, @Email, @Password)";
             using (var connection = new NpgsqlConnection(factory.container.ConnectionString))
             {
                 using (var command = new NpgsqlCommand(insertQuery, connection))
@@ -45,8 +45,6 @@ namespace AuthService.IntegrationTests
                     command.Parameters.AddWithValue("@Username", user.Username);
                     command.Parameters.AddWithValue("@Email", user.Email);
                     command.Parameters.AddWithValue("@Password", user.Password);
-                    command.Parameters.AddWithValue("@Name", user.Name);
-                    command.Parameters.AddWithValue("@Surname", user.Surname);
                     command.ExecuteNonQuery();
                 }
             }

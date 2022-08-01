@@ -28,8 +28,6 @@ namespace AuthService.IntegrationTests
         private static readonly string email = "email@example.com";
         private static readonly string password = "password";
         private static readonly string hashPassword = "$2a$12$vp4wrXirrV1vvY34f2QFleupB9NEFpXrrGTeIN6PiATfmMqh6uGTy";
-        private static readonly string name = "John";
-        private static readonly string surname = "Smith";
 
         [Fact]
         public async Task Register_CorrectData_RegistrationResponse()
@@ -39,9 +37,7 @@ namespace AuthService.IntegrationTests
             {
                 Username = username,
                 Email = email,
-                Password = password,
-                Name = name,
-                Surname = surname
+                Password = password
             };
             var requestContent = new StringContent(JsonConvert.SerializeObject(registerRequest), Encoding.UTF8, "application/json");
 
@@ -55,8 +51,6 @@ namespace AuthService.IntegrationTests
             Assert.NotNull(responseContentObject);
             Assert.Equal(username, responseContentObject.Username);
             Assert.Equal(email, responseContentObject.Email);
-            Assert.Equal(name, responseContentObject.Name);
-            Assert.Equal(surname, responseContentObject.Surname);
             Assert.Equal(1L, _factory.CountTableRows(tableName));
 
             // Rollback
@@ -72,9 +66,7 @@ namespace AuthService.IntegrationTests
                 Id = id,
                 Username = username,
                 Email = email,
-                Password = hashPassword,
-                Name = name,
-                Surname = surname
+                Password = hashPassword
             };
             _factory.Insert(tableName, user);
 

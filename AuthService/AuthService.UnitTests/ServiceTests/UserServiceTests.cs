@@ -35,9 +35,7 @@ namespace AuthService.UnitTests.ServiceTests
             {
                 Username = username,
                 Email = email,
-                Password = password,
-                Name = name,
-                Surname = surname
+                Password = password
             };
 
             savedUser = new User()
@@ -45,9 +43,7 @@ namespace AuthService.UnitTests.ServiceTests
                 Id = id,
                 Username = username,
                 Email = email,
-                Password = hashPassword,
-                Name = name,
-                Surname = surname
+                Password = hashPassword
             };
 
             loginCredentials = new User()
@@ -136,8 +132,6 @@ namespace AuthService.UnitTests.ServiceTests
             var response = await userService.Register(user);
 
             Assert.Equal(savedUser.Id, response.Id);
-            Assert.Equal(savedUser.Name, response.Name);
-            Assert.Equal(savedUser.Surname, response.Surname);
             Assert.Equal(savedUser.Username, response.Username);
             Assert.Equal(savedUser.Password, response.Password);
         }
