@@ -34,7 +34,7 @@ namespace AuthService.IntegrationTests
         public static void Insert(this IntegrationWebApplicationFactory<Program, AppDbContext> factory,
             string tableName, User user)
         {
-            string insertQuery = "INSERT INTO \"" + tableName + "\" (\"Id\", \"Username\", \"Email\", \"Password\", \"Name\", \"Surname\") " +
+            string insertQuery = "INSERT INTO \"" + tableName + "\" (\"Id\", \"Username\", \"Email\", \"Password\") " +
                                  "VALUES (@Id, @Username, @Email, @Password)";
             using (var connection = new NpgsqlConnection(factory.container.ConnectionString))
             {
