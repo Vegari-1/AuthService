@@ -1,6 +1,9 @@
-﻿namespace AuthService.Model
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AuthService.Model
 {
-	public class User
+    [Table("Users", Schema = "auth")]
+    public class User
 	{
         public Guid Id { get; set; }
 

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AuthService.Repository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220801205749_RemoveNameSurname")]
-    partial class RemoveNameSurname
+    [Migration("20220911232139_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,7 +44,7 @@ namespace AuthService.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", "auth");
                 });
 #pragma warning restore 612, 618
         }
