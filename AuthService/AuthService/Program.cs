@@ -17,6 +17,8 @@ var allowSpecificOrigins = "_allowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddEnvironmentVariables();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(allowSpecificOrigins,
@@ -28,20 +30,26 @@ builder.Services.AddCors(options =>
                           });
 });
 
-// Add services to the container.
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DislinktDbConnection")));
+// DB_HOST from Docker-Compose or Local if null
+var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+if (dbHost == null)
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseNpgsql(
+            builder.Configuration.GetConnectionString("DislinktDbConnection"),
+            x => x.MigrationsHistoryTable("__MigrationsHistory", "auth")));
+else
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseNpgsql(dbHost, x => x.MigrationsHistoryTable("__MigrationsHistory", "auth")));
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-//repositories
+// Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-//services
+// Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -74,8 +82,22 @@ builder.Services.Configure<HttpHandlerDiagnosticOptions>(options =>
         options.OperationNameResolver =
             request => $"{request.Method.Method}: {request?.RequestUri?.AbsoluteUri}");
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(80);
+});
 
 var app = builder.Build();
+
+// Run all migrations
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<AppDbContext>();
+    context.Database.Migrate();
+}
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -83,8 +105,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
 
 app.UseCors(allowSpecificOrigins);
 
