@@ -42,7 +42,7 @@ namespace AuthService.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", "auth");
                 });
 #pragma warning restore 612, 618
         }
