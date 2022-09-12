@@ -1,9 +1,9 @@
 ﻿using AuthService.Dto;
 using AuthService.Model;
-using AutoMapper;
+
 namespace AuthService.Profiles
 {
-	public class UserProfile : Profile
+	public class UserProfile : AutoMapper.Profile
 	{
 
         public UserProfile()

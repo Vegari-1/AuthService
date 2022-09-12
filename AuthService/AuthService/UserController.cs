@@ -43,7 +43,9 @@ namespace AuthService
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
         {
-            User user = await _userService.Register(_mapper.Map<User>(registerRequest));
+            User user = await _userService.Register(
+                _mapper.Map<User>(registerRequest), 
+                _mapper.Map<Model.Profile>(registerRequest));
 
             return StatusCode(StatusCodes.Status201Created, _mapper.Map<RegisterResponse>(user));
         }

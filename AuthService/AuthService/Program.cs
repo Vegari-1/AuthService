@@ -48,6 +48,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 // Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
