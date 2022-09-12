@@ -22,39 +22,52 @@ namespace AuthService.IntegrationTests
             _client = _factory.CreateClient();
         }
 
+        private static readonly string schemaName = "auth";
         private static readonly string tableName = "Users";
         private static readonly Guid id = Guid.NewGuid();
         private static readonly string username = "username";
         private static readonly string email = "email@example.com";
+        private static readonly string role = "ROLE_USER";
         private static readonly string password = "password";
         private static readonly string hashPassword = "$2a$12$vp4wrXirrV1vvY34f2QFleupB9NEFpXrrGTeIN6PiATfmMqh6uGTy";
 
         [Fact]
-        public async Task Register_CorrectData_RegistrationResponse()
+        public async Task Register_CorrectData_ApiException()
         {
             // Given
             RegisterRequest registerRequest = new RegisterRequest()
             {
                 Username = username,
                 Email = email,
-                Password = password
+                Password = password,
+                Name = "",
+                Surname = "",
+                Gender = "",
+                DateOfBirth = DateTime.Now,
+                Phone = "",
+                Public = true,
+                Picture = "",
+                Biography = ""
             };
+
             var requestContent = new StringContent(JsonConvert.SerializeObject(registerRequest), Encoding.UTF8, "application/json");
 
             // When
             var response = await _client.PostAsync("/api/user/register", requestContent);
 
             // Then
-            response.EnsureSuccessStatusCode();
+            Assert.Equal(HttpStatusCode.ServiceUnavailable, response.StatusCode);
+
+            /*response.EnsureSuccessStatusCode();
             var responseContentString = await response.Content.ReadAsStringAsync();
             var responseContentObject = JsonConvert.DeserializeObject<RegisterResponse>(responseContentString);
             Assert.NotNull(responseContentObject);
             Assert.Equal(username, responseContentObject.Username);
             Assert.Equal(email, responseContentObject.Email);
-            Assert.Equal(1L, _factory.CountTableRows(tableName));
+            Assert.Equal(1L, _factory.CountTableRows(schemaName, tableName));
 
             // Rollback
-            _factory.DeleteById(tableName, responseContentObject.Id);
+            _factory.DeleteById(schemaName, tableName, responseContentObject.Id);*/
         }
 
         [Fact]
@@ -66,9 +79,10 @@ namespace AuthService.IntegrationTests
                 Id = id,
                 Username = username,
                 Email = email,
-                Password = hashPassword
+                Password = hashPassword,
+                Role = role
             };
-            _factory.Insert(tableName, user);
+            _factory.Insert(schemaName, tableName, user);
 
             LoginRequest loginRequest = new LoginRequest()
             {
@@ -86,7 +100,7 @@ namespace AuthService.IntegrationTests
             Assert.NotNull(responseContentString);
 
             // Rollback
-            _factory.DeleteById(tableName, id);
+            _factory.DeleteById(schemaName, tableName, id);
         }
 
         [Fact]

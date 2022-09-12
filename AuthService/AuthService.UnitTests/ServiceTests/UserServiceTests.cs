@@ -23,11 +23,14 @@ namespace AuthService.UnitTests.ServiceTests
         private static User user;
         private static User savedUser;
         private static User loginCredentials;
+        private static Model.Profile profile;
+        private static Model.Profile savedProfile;
 
         private static Mock<IUserRepository> mockRepository = new Mock<IUserRepository>();
         private static Mock<ITokenService> mockTokenService = new Mock<ITokenService>();
- 
-        UserService userService = new UserService(mockRepository.Object, mockTokenService.Object);
+        private static Mock<IProfileService> mockProfileService = new Mock<IProfileService>();
+
+        UserService userService = new UserService(mockRepository.Object, mockTokenService.Object, mockProfileService.Object);
 
         private static void SetUp()
         {
@@ -52,6 +55,11 @@ namespace AuthService.UnitTests.ServiceTests
                 Password = password
             };
 
+            profile = new Model.Profile();
+            savedProfile = new Model.Profile
+            {
+                Id = id
+            };
         }
 
         [Fact]
@@ -128,8 +136,11 @@ namespace AuthService.UnitTests.ServiceTests
             mockRepository
                 .Setup(repository => repository.Save(user))
                 .ReturnsAsync(savedUser);
+            mockProfileService
+                .Setup(service => service.CreateProfile(profile))
+                .ReturnsAsync(savedProfile);
 
-            var response = await userService.Register(user);
+            var response = await userService.Register(user, profile);
 
             Assert.Equal(savedUser.Id, response.Id);
             Assert.Equal(savedUser.Username, response.Username);
@@ -147,7 +158,7 @@ namespace AuthService.UnitTests.ServiceTests
 
             try
             {
-                var response = await userService.Register(user);
+                var response = await userService.Register(user, profile);
             }
             catch (Exception ex)
             {

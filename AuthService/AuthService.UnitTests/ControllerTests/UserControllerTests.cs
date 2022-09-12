@@ -22,6 +22,7 @@ public class UserControllerTests
     private static readonly string accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtzZW5rbyIsImV4cCI6MTY1MzEyOTQ1MiwiaXNzIjoidmVnYXJpLTEiLCJhdWQiOiJ2ZWdhcmktMSJ9.CA6pGWnJjopO53m049x1fg5amU0eqHIhDkwDFwVGguc";
 
     private static User userFromRegisterRequest;
+    private static Model.Profile profileFromRegisterRequest;
     private static User userFromLoginRequest;
     private static User savedUser;
     private static RegisterRequest registerRequest;
@@ -42,6 +43,8 @@ public class UserControllerTests
             Email = email,
             Password = password
         };
+
+        profileFromRegisterRequest = new Model.Profile();
 
         userFromLoginRequest = new User()
         {
@@ -84,7 +87,7 @@ public class UserControllerTests
         SetUp();
 
         mockService
-            .Setup(service => service.Register(userFromRegisterRequest))
+            .Setup(service => service.Register(userFromRegisterRequest, profileFromRegisterRequest))
             .ReturnsAsync(savedUser);
 
         mockMapper
@@ -92,6 +95,12 @@ public class UserControllerTests
            .Returns((RegisterRequest source) =>
            {
                return userFromRegisterRequest;
+           });
+        mockMapper
+           .Setup(x => x.Map<Model.Profile>(registerRequest))
+           .Returns((RegisterRequest source) =>
+           {
+               return profileFromRegisterRequest;
            });
 
         mockMapper
@@ -119,7 +128,7 @@ public class UserControllerTests
         var exception = new EntityExistsException(typeof(User), "email or username");
 
         mockService
-            .Setup(service => service.Register(userFromRegisterRequest))
+            .Setup(service => service.Register(userFromRegisterRequest, profileFromRegisterRequest))
             .ThrowsAsync(exception);
 
         mockMapper
