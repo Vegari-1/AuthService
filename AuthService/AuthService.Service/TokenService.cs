@@ -12,7 +12,9 @@ namespace AuthService.Service
 	{
         private readonly IConfiguration _config;
 
+        private static readonly string id = "id";
         private static readonly string username = "username";
+        private static readonly string role = "Role";
         private static readonly int tokenLifetime = 30;
 
         public TokenService(IConfiguration config)
@@ -26,7 +28,9 @@ namespace AuthService.Service
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             IEnumerable<Claim> claims = new List<Claim>
             {
-                new Claim(username, user.Username)
+                new Claim(id, user.ProfileId.ToString()),
+                new Claim(username, user.Username),
+                new Claim(role, user.Role)
             };
 
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],

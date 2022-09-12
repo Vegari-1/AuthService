@@ -108,8 +108,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(allowSpecificOrigins);
 
-app.UseAuthorization();
-
 app.MapControllers();
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
