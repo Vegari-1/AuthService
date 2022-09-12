@@ -1,5 +1,6 @@
 ﻿using AuthService.Model;
 using AuthService.Service.Interface;
+using AuthService.Service.Interface.Exceptions;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -17,10 +18,17 @@ namespace AuthService.Service
                 profileServiceUrl = "http://localhost:5000";
             }
             var requestContent = new StringContent(JsonConvert.SerializeObject(profile), Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync(profileServiceUrl + "/api/profile", requestContent);
-            var responseContentString = await response.Content.ReadAsStringAsync();
-            var responseContentObject = JsonConvert.DeserializeObject<Profile>(responseContentString);
-            return responseContentObject;
+            try
+            {
+                var response = await _client.PostAsync(profileServiceUrl + "/api/profile", requestContent);
+                var responseContentString = await response.Content.ReadAsStringAsync();
+                var responseContentObject = JsonConvert.DeserializeObject<Profile>(responseContentString);
+                return responseContentObject;
+            } catch (HttpRequestException ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new ApiException("ProfileService");
+            }
         }
     }
 }
