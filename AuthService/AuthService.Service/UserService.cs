@@ -12,11 +12,13 @@ public class UserService : IUserService
 
     private readonly IUserRepository _userRepository;
     private readonly ITokenService _tokenService;
+    private readonly IProfileService _profileService;
 
-    public UserService(IUserRepository userRepository, ITokenService tokenService)
+    public UserService(IUserRepository userRepository, ITokenService tokenService, IProfileService profileService)
     {
         _userRepository = userRepository;
         _tokenService = tokenService;
+        _profileService = profileService;
     }
 
     public async Task<string> Login(User user)
@@ -34,7 +36,7 @@ public class UserService : IUserService
         return accessToken;
     }
 
-    public async Task<User> Register(User user)
+    public async Task<User> Register(User user, Profile profile)
     {
         User existingUser = await _userRepository.GetByEmailOrUsername(user.Email, user.Username);
 
@@ -43,8 +45,8 @@ public class UserService : IUserService
 
         user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
         user.Role = "ROLE_USER";
-        // TODO: send request to ProfileService
-        user.ProfileId = Guid.NewGuid();
+        profile = await _profileService.CreateProfile(profile);
+        user.ProfileId = profile.Id;
 
         return await _userRepository.Save(user);
     }

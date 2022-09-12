@@ -6,6 +6,6 @@ public interface IUserService
 {
     Task<string> Login(User user);
 
-    Task<User> Register(User user);
+    Task<User> Register(User user, Profile profile);
 }
 
