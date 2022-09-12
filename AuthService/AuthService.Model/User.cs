@@ -13,6 +13,10 @@ namespace AuthService.Model
 
         public string Password { get; set; }
 
+        public string Role { get; set; }
+
+        public Guid? ProfileId { get; set; }
+
 	}
 }
 
