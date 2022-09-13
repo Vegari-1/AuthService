@@ -70,10 +70,11 @@ builder.Services.Configure<HttpHandlerDiagnosticOptions>(options =>
         options.OperationNameResolver =
             request => $"{request.Method.Method}: {request?.RequestUri?.AbsoluteUri}");
 
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(80);
-});
+if (dbHost != null)
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        options.ListenAnyIP(80);
+    });
 
 var app = builder.Build();
 
