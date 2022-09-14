@@ -70,12 +70,6 @@ builder.Services.Configure<HttpHandlerDiagnosticOptions>(options =>
         options.OperationNameResolver =
             request => $"{request.Method.Method}: {request?.RequestUri?.AbsoluteUri}");
 
-if (dbHost != null)
-    builder.WebHost.ConfigureKestrel(options =>
-    {
-        options.ListenAnyIP(80);
-    });
-
 var app = builder.Build();
 
 // Run all migrations only on Docker container
