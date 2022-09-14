@@ -15,7 +15,7 @@ namespace AuthService.Service
         {
             if (profileServiceUrl == null)
             {
-                profileServiceUrl = "http://localhost:5000";
+                profileServiceUrl = "http://localhost:5002";
             }
             var requestContent = new StringContent(JsonConvert.SerializeObject(profile), Encoding.UTF8, "application/json");
             try
