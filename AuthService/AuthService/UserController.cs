@@ -26,12 +26,6 @@ namespace AuthService
             _tracer = tracer;
         }
 
-        [HttpGet("test")]
-        public IActionResult Test([FromHeader(Name = "profile-id")] Guid id)
-        {
-            return Ok(id);
-        }
-
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
