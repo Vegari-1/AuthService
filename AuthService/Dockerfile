@@ -3,6 +3,8 @@ WORKDIR /app
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0-focal AS build
+ARG github_username
+ARG github_pat
 WORKDIR /src
 COPY AuthService/AuthService.csproj AuthService/
 RUN dotnet restore AuthService/AuthService.csproj
