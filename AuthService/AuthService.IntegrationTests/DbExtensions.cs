@@ -12,7 +12,7 @@ namespace AuthService.IntegrationTests
             string schemaName, string tableName)
         {
             long totalRows = -1;
-            using (var connection = new NpgsqlConnection(factory.container.ConnectionString))
+            using (var connection = new NpgsqlConnection(factory.postgresContainer.ConnectionString))
             {
                 using (var command = new NpgsqlCommand())
                 {
@@ -37,7 +37,7 @@ namespace AuthService.IntegrationTests
             string insertQuery = "INSERT INTO " + schemaName + ".\"" + tableName + 
                                  "\" (\"Id\", \"Username\", \"Email\", \"Password\", \"Role\") " +
                                  "VALUES (@Id, @Username, @Email, @Password, @Role)";
-            using (var connection = new NpgsqlConnection(factory.container.ConnectionString))
+            using (var connection = new NpgsqlConnection(factory.postgresContainer.ConnectionString))
             {
                 using (var command = new NpgsqlCommand(insertQuery, connection))
                 {
@@ -55,7 +55,7 @@ namespace AuthService.IntegrationTests
         public static void DeleteById(this IntegrationWebApplicationFactory<Program, AppDbContext> factory,
             string schemaName, string tableName, Guid id)
         {
-            using (var connection = new NpgsqlConnection(factory.container.ConnectionString))
+            using (var connection = new NpgsqlConnection(factory.postgresContainer.ConnectionString))
             {
                 using (var command = new NpgsqlCommand())
                 {
