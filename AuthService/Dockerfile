@@ -7,6 +7,7 @@ ARG github_username
 ARG github_pat
 WORKDIR /src
 COPY AuthService/AuthService.csproj AuthService/
+COPY config/NuGet.Config .
 RUN dotnet restore AuthService/AuthService.csproj
 COPY . .
 WORKDIR /src/AuthService
