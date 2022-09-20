@@ -27,7 +27,6 @@
     <None Remove="ServiceTests\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ControllerTests\" />
     <Folder Include="ServiceTests\" />
   </ItemGroup>
   <ItemGroup>

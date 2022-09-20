@@ -29,6 +29,11 @@ namespace AuthService
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("login");
+            counter.Inc();
+
             string accessToken = await _userService.Login(_mapper.Map<User>(loginRequest));
 
             return Ok(accessToken);
@@ -37,6 +42,11 @@ namespace AuthService
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("register");
+            counter.Inc();
+
             User user = await _userService.Register(
                 _mapper.Map<User>(registerRequest), 
                 _mapper.Map<Model.Profile>(registerRequest));

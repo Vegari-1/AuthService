@@ -11,7 +11,7 @@
 		public DateTime DateOfBirth { get; set; }
 		public string Phone { get; set; }
 		public bool Public { get; set; }
-		public string Picture { get; set; }
 		public string Biography { get; set; }
+		public string? Picture { get; set; }
 	}
 }
